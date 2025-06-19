@@ -29,41 +29,144 @@ Buatlah sebuah program sederhana yang dapat berkomunikasi satu sama lain menggun
 
 ### Catatan
 
-> Insert catatan dari pengerjaan kalian... (contoh dibawah) // hapus line ini
+Program ini mengimplementasikan sistem komunikasi menggunakan Named Pipes di Linux. Named Pipes memungkinkan komunikasi inter-process yang persistent dan dapat diakses melalui filesystem.
+
+**Note**: Program ini dirancang untuk sistem operasi Linux/Unix. Untuk menjalankan di Windows, gunakan WSL (Windows Subsystem for Linux) atau Virtual Machine Linux.
 
 Struktur repository:
 ```
 .
-..
+├── README.md              # Laporan utama
+├── src/                   # Source code C
+│   ├── server.c           # Program server
+│   └── client.c           # Program client  
+├── scripts/               # Shell scripts
+│   ├── build.sh           # Script kompilasi
+│   ├── run_server.sh      # Script menjalankan server
+│   ├── run_client.sh      # Script menjalankan client
+│   ├── demo.sh            # Script demo otomatis
+│   └── test.sh            # Script testing
+├── Makefile               # Build automation
+├── PROGRAM_README.md      # Dokumentasi program
+└── history.log            # Log komunikasi (generated saat runtime)
 ```
 
 ## Pengerjaan
 
-> Insert poin soal...
+### 1. Implementasi Named Pipes Communication System
 
 **Teori**
 
-...
+Named Pipes (FIFO - First In First Out) adalah salah satu metode Inter-Process Communication (IPC) di sistem operasi Unix/Linux yang memungkinkan proses yang berbeda untuk berkomunikasi satu sama lain. Berbeda dengan anonymous pipes yang hanya dapat digunakan oleh proses parent-child, named pipes dapat digunakan oleh proses yang tidak memiliki hubungan keluarga.
+
+Karakteristik Named Pipes:
+- Memiliki nama dalam filesystem (biasanya di /tmp/)
+- Persistent sampai dihapus secara eksplisit
+- Dapat diakses oleh multiple processes
+- Data flow secara FIFO (First In First Out)
+- Mendukung blocking dan non-blocking operations
+
+Fungsi-fungsi utama yang digunakan:
+- `mkfifo()`: Membuat named pipe
+- `open()`: Membuka named pipe untuk read/write
+- `read()/write()`: Membaca dan menulis data
+- `unlink()`: Menghapus named pipe
 
 **Solusi**
 
-...
+Implementasi terdiri dari dua program utama:
 
-> Insert poin soal...
+1. **Server Program (server.c)**:
+   - Membuat named pipe menggunakan `mkfifo()`
+   - Menunggu koneksi dari client
+   - Menerima pesan dari client dan memberikan response
+   - Mencatat semua komunikasi ke `history.log`
+   - Cleanup otomatis saat program berakhir
+
+2. **Client Program (client.c)**:
+   - Terhubung ke named pipe yang sudah dibuat server
+   - Mengirim pesan ke server dan menerima response
+   - Mencatat semua komunikasi ke `history.log`
+   - Dapat mengakhiri komunikasi dengan perintah "exit"
+
+3. **Build dan Run Scripts**:
+   - `build.sh`: Kompilasi kedua program
+   - `run_server.sh`: Menjalankan server
+   - `run_client.sh`: Menjalankan client
+
+### 2. Logging System
 
 **Teori**
 
-...
+Logging adalah proses pencatatan aktivitas dan events yang terjadi dalam sistem. Dalam konteks komunikasi antar proses, logging membantu untuk:
+- Debugging dan troubleshooting
+- Audit trail komunikasi
+- Monitoring sistem
+- Analisis performa
 
 **Solusi**
 
-...
+Sistem logging yang diimplementasikan:
+- Setiap pesan yang dikirim dan diterima dicatat
+- Format log: `[ROLE-ACTION] message`
+- File log: `history.log`
+- No timestamp sesuai permintaan soal
+
+Format logging:
+```
+[CLIENT-SENT] Hello Server
+[SERVER-RECEIVED] Hello Server
+[SERVER-SENT] Hello Client
+[CLIENT-RECEIVED] Hello Client
+```
+
+### 3. Error Handling dan Cleanup
+
+**Teori**
+
+Proper error handling dan cleanup sangat penting dalam system programming untuk:
+- Mencegah resource leaks
+- Memastikan konsistensi sistem
+- Graceful program termination
+- Recovery dari error conditions
+
+**Solusi**
+
+- Signal handlers untuk SIGINT dan SIGTERM
+- Automatic cleanup named pipe saat program berakhir
+- Error checking untuk semua system calls
+- Proper file descriptor management
+- Graceful shutdown sequence
 
 **Video Menjalankan Program**
-...
+
+Untuk menjalankan program:
+
+1. Kompilasi: `./scripts/build.sh` atau `make all`
+2. Terminal 1: `./scripts/run_server.sh`
+3. Terminal 2: `./scripts/run_client.sh`
+4. Mulai komunikasi
+5. Ketik "exit" di client untuk keluar
+
+Alternatif testing:
+- `make demo` - Demo otomatis
+- `make test` - Testing komprehensif
+- `./scripts/test.sh` - Manual testing
+
+**Contoh Output History Log:**
+```log
+[CLIENT] Connected to server
+[CLIENT-SENT] Hello Server!
+[SERVER-RECEIVED] Hello Server!
+[SERVER-SENT] Hello Client! Nice to meet you
+[CLIENT-RECEIVED] Hello Client! Nice to meet you
+[CLIENT-SENT] exit
+[CLIENT] Exiting
+[SERVER] Client requested exit
+```
 
 ## Daftar Pustaka
 
-Sitasi 1
-Sitasi 2
-Sitasi 3
+1. Stevens, W. Richard, and Stephen A. Rago. "Advanced Programming in the UNIX Environment." 3rd Edition. Addison-Wesley Professional, 2013.
+2. Love, Robert. "Linux System Programming: Talking Directly to the Kernel and C Library." 2nd Edition. O'Reilly Media, 2013.
+3. Kerrisk, Michael. "The Linux Programming Interface: A Linux and UNIX System Programming Handbook." No Starch Press, 2010.
