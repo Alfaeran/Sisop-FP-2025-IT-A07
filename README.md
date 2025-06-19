@@ -15,6 +15,7 @@
 ## Kelompok A19
 
 Nama | NRP
+--- | ---
 Kanafira Vanesha Putri | 5027241010
 Angga Firmansyah | 5027241062
 Tiara Fatimah Azzahra | 5027241090
