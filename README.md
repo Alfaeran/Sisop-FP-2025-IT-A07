@@ -140,6 +140,10 @@ Proper error handling dan cleanup sangat penting dalam system programming untuk:
 
 **Video Menjalankan Program**
 
+
+https://github.com/user-attachments/assets/41354a79-3090-4d6f-b51e-0bb92625348a
+
+
 Untuk menjalankan program:
 
 1. Kompilasi: `./scripts/build.sh` atau `make all`
