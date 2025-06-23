@@ -141,7 +141,11 @@ Proper error handling dan cleanup sangat penting dalam system programming untuk:
 **Video Menjalankan Program**
 
 
-https://github.com/user-attachments/assets/41354a79-3090-4d6f-b51e-0bb92625348a
+
+
+https://github.com/user-attachments/assets/20561d08-89e1-4b9d-8642-d47f456f5397
+
+
 
 
 Untuk menjalankan program:
