@@ -24,7 +24,7 @@ M. Alfaeran Auriga Ruswandi | 5027241115
 ## Deskripsi Soal
 
 > 19. Named Pipes - Pipe communication system.
-Buatlah sebuah program sederhana yang dapat berkomunikasi satu sama lain menggunakan sebuah named pipe. Catat setiap komunikasi di masing - masing sisi di dalam file bernama history.log (tidak menggunakan waktu dan tanggal).
+Buatlah sebuah program sederhana yang dapat berkomunikasi satu sama lain menggunakan sebuah named pipe. Catat setiap komunikasi di masing - masing sisi di dalam file bernama history.log (tidak menggunakan waktu dan tanggal). Named Pipes menyediakan saluran komunikasi yang persistent dan dapat diakses seperti file di dalam filesystem. Dengan Named Pipes, dua proses terpisah bisa saling berkirim dan menerima pesan secara berurutan (First In First Out).
 
 
 ### Catatan
