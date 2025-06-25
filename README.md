@@ -177,6 +177,6 @@ Alternatif testing:
 
 ## Daftar Pustaka
 
-1. Stevens, W. Richard, and Stephen A. Rago. "Advanced Programming in the UNIX Environment." 3rd Edition. Addison-Wesley Professional, 2013.
-2. Love, Robert. "Linux System Programming: Talking Directly to the Kernel and C Library." 2nd Edition. O'Reilly Media, 2013.
-3. Kerrisk, Michael. "The Linux Programming Interface: A Linux and UNIX System Programming Handbook." No Starch Press, 2010.
+1.	Stevens, W. R., & Rago, S. A. (2013). Advanced programming in the UNIX environment (3rd ed.). Addison-Wesley Professional.
+	2.	Love, R. (2013). Linux system programming: Talking directly to the kernel and C library (2nd ed.). O’Reilly Media.
+	3.	Kerrisk, M. (2010). The Linux programming interface: A Linux and UNIX system programming handbook. No Starch Press.
