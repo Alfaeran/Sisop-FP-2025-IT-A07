@@ -176,7 +176,6 @@ Alternatif testing:
 ```
 
 ## Daftar Pustaka
-
-1. Stevens, W. R., & Rago, S. A. (2013). Advanced programming in the UNIX environment (3rd ed.). Addison-Wesley Professional.
-2. Love, R. (2013). Linux system programming: Talking directly to the kernel and C library (2nd ed.). O’Reilly Media.
-	3.	Kerrisk, M. (2010). The Linux programming interface: A Linux and UNIX system programming handbook. No Starch Press.
+📚 Daftar Pustaka:
+	1.	Karacalı, H., Donum, N., & Cebel, E. (2024). Cryptographic enhancement of named pipes for secure process communication. The European Journal of Research and Development, 4(2), 62–68.
+	2.	Karacalı, H., Cebel, E., & Donum, N. (2024). Performance analysis of encryption algorithms in named pipe communication for Linux systems. The Eurasia Proceedings of Science, Technology, Engineering & Mathematics (EPSTEM), 27, 214–227.
