@@ -183,6 +183,9 @@ Alternatif testing:
  
 3.	The Art of Machinery. (2020). *Robust and race‑free server logging using named pipes*. Retrieved from https://theartofmachinery.com/2020/10/10/logging_with_named_pipes.html
  
-4.	Felici, R., Pozzi, L. A., & Furia, C. A. (2024). *ShellFuzzer: Grammar-based fuzzer of shell interpreters. arXiv preprint*, arXiv:2403.01234.
+4. Merino, J. (2023). Unit-testing shell scripts and tools with shtk. Diakses dari https://jmmv.dev/2023/10/unit-testing-with-shtk.html
+
+5. Vogel, F. (2024). Automated testing of Linux shell scripts and applications with BATS. Medium. Diakses dari https://medium.com/@fvogel_16801/automated-testing-of-linux-shell-scripts-and-applications-with-bats-230258682d6b
+
 
 
