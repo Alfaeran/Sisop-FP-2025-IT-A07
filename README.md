@@ -181,7 +181,7 @@ Alternatif testing:
  
 2.	Karacalı, H., Cebel, E., & Donum, N. (2024). *Performance analysis of encryption algorithms in named pipe communication for Linux systems. The Eurasia Proceedings of Science, Technology, Engineering & Mathematics (EPSTEM)*, 27, 214–227.
  
-3.	The Art of Machinery. (2020). *Robust and race‑free server logging using named pipes*. Retrieved from https://artofmachinery.com.
+3.	The Art of Machinery. (2020). *Robust and race‑free server logging using named pipes*. Retrieved from https://theartofmachinery.com/2020/10/10/logging_with_named_pipes.html
  
 4.	Felici, R., Pozzi, L. A., & Furia, C. A. (2024). *ShellFuzzer: Grammar-based fuzzer of shell interpreters. arXiv preprint*, arXiv:2403.01234.
 
