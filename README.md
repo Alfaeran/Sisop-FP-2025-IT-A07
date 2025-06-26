@@ -106,6 +106,8 @@ Logging adalah proses pencatatan aktivitas dan events yang terjadi dalam sistem.
 - Monitoring sistem
 - Analisis performa
 
+Studi empiris tentang praktik logging di kernel Linux, termasuk distribusi, perubahan, dan rekomendasi peningkatan kualitas log
+
 **Solusi**
 
 Sistem logging yang diimplementasikan:
@@ -187,5 +189,5 @@ Alternatif testing:
 
 5. Vogel, F. (2024). *Automated testing of Linux shell scripts and applications with BATS*. *Medium*. Retrieved from https://medium.com/@fvogel_16801/automated-testing-of-linux-shell-scripts-and-applications-with-bats-230258682d6b
 
-
+6. Hassan, A., Li, H., Chen, T., & Shang, W. (2018). Studying software logging using topic models. Empirical Software Engineering, 23, 2655-2694. https://doi.org/10.1007/s10664-018-9595-*8
 
