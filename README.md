@@ -1,6 +1,7 @@
 # Final Project Sistem Operasi IT
 
 ## Peraturan
+
 1. Waktu pengerjaan dimulai hari Kamis (19 Juni 2025) setelah soal dibagikan hingga hari Rabu (25 Juni 2025) pukul 23.59 WIB.
 2. Praktikan diharapkan membuat laporan penjelasan dan penyelesaian soal dalam bentuk Readme(github).
 3. Format nama repository github “Sisop-FP-2025-IT-[Kelas][Kelompok]” (contoh:Sisop-FP-2025-IT-A01).
@@ -20,59 +21,6 @@ Kanafira Vanesha Putri | 5027241010
 Angga Firmansyah | 5027241062
 Tiara Fatimah Azzahra | 5027241090
 M. Alfaeran Auriga Ruswandi | 5027241115  
-
-## Deskripsi Soal
-
-> 19. Named Pipes - Pipe communication system.
-Buatlah sebuah program sederhana yang dapat berkomunikasi satu sama lain menggunakan sebuah named pipe. Catat setiap komunikasi di masing - masing sisi di dalam file bernama history.log (tidak menggunakan waktu dan tanggal).
-
-
-### Catatan
-
-Program ini mengimplementasikan sistem komunikasi menggunakan Named Pipes di Linux. Named Pipes memungkinkan komunikasi inter-process yang persistent dan dapat diakses melalui filesystem.
-
-**Note**: Program ini dirancang untuk sistem operasi Linux/Unix. Untuk menjalankan di Windows, gunakan WSL (Windows Subsystem for Linux) atau Virtual Machine Linux.
-
-Struktur repository:
-```
-.
-├── README.md              # Laporan utama
-├── src/                   # Source code C
-│   ├── server.c           # Program server
-│   └── client.c           # Program client  
-├── scripts/               # Shell scripts
-│   ├── build.sh           # Script kompilasi
-│   ├── run_server.sh      # Script menjalankan server
-│   ├── run_client.sh      # Script menjalankan client
-│   ├── demo.sh            # Script demo otomatis
-│   └── test.sh            # Script testing
-├── Makefile               # Build automation
-├── PROGRAM_README.md      # Dokumentasi program
-└── history.log            # Log komunikasi (generated saat runtime)
-```
-
-## Pengerjaan
-
-### 1. Implementasi Named Pipes Communication System
-
-**Teori**
-
-Named Pipes (FIFO - First In First Out) adalah salah satu metode Inter-Process Communication (IPC) di sistem operasi Unix/Linux yang memungkinkan proses yang berbeda untuk berkomunikasi satu sama lain. Berbeda dengan anonymous pipes yang hanya dapat digunakan oleh proses parent-child, named pipes dapat digunakan oleh proses yang tidak memiliki hubungan keluarga.
-
-Karakteristik Named Pipes:
-- Memiliki nama dalam filesystem (biasanya di /tmp/)
-- Persistent sampai dihapus secara eksplisit
-- Dapat diakses oleh multiple processes
-- Data flow secara FIFO (First In First Out)
-- Mendukung blocking dan non-blocking operations
-
-Fungsi-fungsi utama yang digunakan:
-- `mkfifo()`: Membuat named pipe
-- `open()`: Membuka named pipe untuk read/write
-- `read()/write()`: Membaca dan menulis data
-- `unlink()`: Menghapus named pipe
-
-**Solusi**
 
 Implementasi terdiri dari dua program utama:
 
@@ -99,6 +47,7 @@ Implementasi terdiri dari dua program utama:
 **Teori**
 
 Logging adalah proses pencatatan aktivitas dan events yang terjadi dalam sistem. Dalam konteks komunikasi antar proses, logging membantu untuk:
+
 - Debugging dan troubleshooting
 - Audit trail komunikasi
 - Monitoring sistem
@@ -107,12 +56,14 @@ Logging adalah proses pencatatan aktivitas dan events yang terjadi dalam sistem.
 **Solusi**
 
 Sistem logging yang diimplementasikan:
+
 - Setiap pesan yang dikirim dan diterima dicatat
 - Format log: `[ROLE-ACTION] message`
 - File log: `history.log`
 - No timestamp sesuai permintaan soal
 
 Format logging:
+
 ```
 [CLIENT-SENT] Hello Server
 [SERVER-RECEIVED] Hello Server
@@ -125,6 +76,7 @@ Format logging:
 **Teori**
 
 Proper error handling dan cleanup sangat penting dalam system programming untuk:
+
 - Mencegah resource leaks
 - Memastikan konsistensi sistem
 - Graceful program termination
@@ -149,11 +101,13 @@ Untuk menjalankan program:
 5. Ketik "exit" di client untuk keluar
 
 Alternatif testing:
+
 - `make demo` - Demo otomatis
 - `make test` - Testing komprehensif
 - `./scripts/test.sh` - Manual testing
 
 **Contoh Output History Log:**
+
 ```log
 [CLIENT] Connected to server
 [CLIENT-SENT] Hello Server!
