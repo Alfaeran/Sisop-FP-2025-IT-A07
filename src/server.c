@@ -4,21 +4,30 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <time.h>
 #include <signal.h>
 
-#define PIPE_NAME "/tmp/namedpipe_a19"
+#define PIPE_C2S "/tmp/namedpipe_c2s"
+#define PIPE_S2C "/tmp/namedpipe_s2c"
 #define BUFFER_SIZE 256
 #define LOG_FILE "history.log"
 
-int pipe_fd;
+int pipe_read_fd = -1;
+int pipe_write_fd = -1;
 FILE *log_file;
 
-void cleanup(int sig)
+void cleanup()
 {
     printf("\nServer shutting down...\n");
-    close(pipe_fd);
-    unlink(PIPE_NAME);
+    if (pipe_read_fd != -1)
+    {
+        close(pipe_read_fd);
+        unlink(PIPE_C2S);
+    }
+    if (pipe_write_fd != -1)
+    {
+        close(pipe_write_fd);
+        unlink(PIPE_S2C);
+    }
     if (log_file)
     {
         fclose(log_file);
@@ -38,7 +47,6 @@ void log_message(const char *side, const char *message)
 int main()
 {
     char buffer[BUFFER_SIZE];
-    char response[BUFFER_SIZE];
 
     // Set up signal handler for graceful shutdown
     signal(SIGINT, cleanup);
@@ -52,28 +60,42 @@ int main()
         exit(1);
     }
 
-    // Remove any existing pipe
-    unlink(PIPE_NAME);
+    // Remove any existing pipes
+    unlink(PIPE_C2S);
+    unlink(PIPE_S2C);
 
-    // Create named pipe
-    if (mkfifo(PIPE_NAME, 0666) == -1)
+    // Create named pipes
+    if (mkfifo(PIPE_C2S, 0666) == -1)
     {
-        perror("mkfifo failed");
+        perror("mkfifo PIPE_C2S failed");
         fclose(log_file);
         exit(1);
     }
 
-    printf("Server: Named pipe created at %s\n", PIPE_NAME);
-    printf("Server: Waiting for client connection...\n");
-
-    // Open pipe for reading and writing
-    pipe_fd = open(PIPE_NAME, O_RDWR);
-    if (pipe_fd == -1)
+    if (mkfifo(PIPE_S2C, 0666) == -1)
     {
-        perror("Failed to open pipe");
-        unlink(PIPE_NAME);
+        perror("mkfifo PIPE_S2C failed");
+        unlink(PIPE_C2S);
         fclose(log_file);
         exit(1);
+    }
+
+    printf("Server: Named pipes created.\n");
+    printf("Server: Waiting for client connection...\n");
+
+    // Open pipes
+    pipe_read_fd = open(PIPE_C2S, O_RDONLY);
+    if (pipe_read_fd == -1)
+    {
+        perror("Failed to open read pipe");
+        cleanup();
+    }
+
+    pipe_write_fd = open(PIPE_S2C, O_WRONLY);
+    if (pipe_write_fd == -1)
+    {
+        perror("Failed to open write pipe");
+        cleanup();
     }
 
     printf("Server: Client connected!\n");
@@ -83,7 +105,7 @@ int main()
     {
         // Read message from client
         memset(buffer, 0, BUFFER_SIZE);
-        ssize_t bytes_read = read(pipe_fd, buffer, BUFFER_SIZE - 1);
+        ssize_t bytes_read = read(pipe_read_fd, buffer, BUFFER_SIZE - 1);
 
         if (bytes_read > 0)
         {
@@ -100,25 +122,15 @@ int main()
             printf("Server received: %s\n", buffer);
             log_message("SERVER-RECEIVED", buffer);
 
-            // Generate response
-            printf("Server: Enter response: ");
-            fflush(stdout);
-
-            if (fgets(response, BUFFER_SIZE, stdin) != NULL)
+            // Echo back to client
+            if (write(pipe_write_fd, buffer, strlen(buffer)) == -1)
             {
-                // Remove newline character
-                response[strcspn(response, "\n")] = 0;
-
-                // Send response to client
-                if (write(pipe_fd, response, strlen(response)) == -1)
-                {
-                    perror("Failed to write to pipe");
-                    break;
-                }
-
-                printf("Server sent: %s\n", response);
-                log_message("SERVER-SENT", response);
+                perror("Failed to write to pipe");
+                break;
             }
+
+            printf("Server sent: %s\n", buffer);
+            log_message("SERVER-SENT", buffer);
         }
         else if (bytes_read == 0)
         {
@@ -133,6 +145,6 @@ int main()
         }
     }
 
-    cleanup(0);
+    cleanup();
     return 0;
 }

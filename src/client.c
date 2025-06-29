@@ -5,19 +5,25 @@
 #include <fcntl.h>
 #include <signal.h>
 
-#define PIPE_NAME "/tmp/namedpipe_a19"
+#define PIPE_C2S "/tmp/namedpipe_c2s"
+#define PIPE_S2C "/tmp/namedpipe_s2c"
 #define BUFFER_SIZE 256
 #define LOG_FILE "history.log"
 
-int pipe_fd;
+int pipe_write_fd = -1;
+int pipe_read_fd = -1;
 FILE *log_file;
 
-void cleanup(int sig)
+void cleanup()
 {
     printf("\nClient shutting down...\n");
-    if (pipe_fd != -1)
+    if (pipe_write_fd != -1)
     {
-        close(pipe_fd);
+        close(pipe_write_fd);
+    }
+    if (pipe_read_fd != -1)
+    {
+        close(pipe_read_fd);
     }
     if (log_file)
     {
@@ -54,11 +60,20 @@ int main()
 
     printf("Client: Connecting to server...\n");
 
-    // Open pipe for reading and writing
-    pipe_fd = open(PIPE_NAME, O_RDWR);
-    if (pipe_fd == -1)
+    // Open pipes
+    pipe_write_fd = open(PIPE_C2S, O_WRONLY);
+    if (pipe_write_fd == -1)
     {
-        perror("Failed to open pipe. Make sure server is running.");
+        perror("Failed to open write pipe. Make sure server is running.");
+        fclose(log_file);
+        exit(1);
+    }
+
+    pipe_read_fd = open(PIPE_S2C, O_RDONLY);
+    if (pipe_read_fd == -1)
+    {
+        perror("Failed to open read pipe. Make sure server is running.");
+        close(pipe_write_fd);
         fclose(log_file);
         exit(1);
     }
@@ -82,13 +97,12 @@ int main()
         message[strcspn(message, "\n")] = 0;
 
         // Send message to server
-        if (write(pipe_fd, message, strlen(message)) == -1)
+        if (write(pipe_write_fd, message, strlen(message)) == -1)
         {
             perror("Failed to write to pipe");
             break;
         }
 
-        printf("Client sent: %s\n", message);
         log_message("CLIENT-SENT", message);
 
         // Check for exit command
@@ -101,12 +115,12 @@ int main()
 
         // Read response from server
         memset(buffer, 0, BUFFER_SIZE);
-        ssize_t bytes_read = read(pipe_fd, buffer, BUFFER_SIZE - 1);
+        ssize_t bytes_read = read(pipe_read_fd, buffer, BUFFER_SIZE - 1);
 
         if (bytes_read > 0)
         {
             buffer[bytes_read] = '\0';
-            printf("Client received: %s\n", buffer);
+            printf("bot replied: %s\n", buffer);
             log_message("CLIENT-RECEIVED", buffer);
         }
         else if (bytes_read == 0)
@@ -122,6 +136,6 @@ int main()
         }
     }
 
-    cleanup(0);
+    cleanup();
     return 0;
 }
