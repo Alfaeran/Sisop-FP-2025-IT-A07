@@ -10,13 +10,13 @@
 #define PIPE_C2S "/tmp/namedpipe_c2s"
 #define PIPE_S2C "/tmp/namedpipe_s2c"
 #define BUFFER_SIZE 256
-#define LOG_FILE "history.log"
+#define LOG_FILE "src/output/history.log"
 
 int pipe_write_fd = -1;
 int pipe_read_fd = -1;
 FILE *log_file;
 
-void cleanup()
+void cleanup(int sig)
 {
     (void)sig; // Suppress unused parameter warning
     printf("\nClient shutting down...\n");
@@ -123,7 +123,7 @@ int main()
         if (bytes_read > 0)
         {
             buffer[bytes_read] = '\0';
-            printf("bot replied: %s\n", buffer);
+            printf("Server replied: %s\n", buffer);
             log_message("CLIENT-RECEIVED", buffer);
         }
         else if (bytes_read == 0)
@@ -139,6 +139,6 @@ int main()
         }
     }
 
-    cleanup();
+    cleanup(0);
     return 0;
 }

@@ -11,13 +11,13 @@
 #define PIPE_C2S "/tmp/namedpipe_c2s"
 #define PIPE_S2C "/tmp/namedpipe_s2c"
 #define BUFFER_SIZE 256
-#define LOG_FILE "history.log"
+#define LOG_FILE "src/output/history.log"
 
 int pipe_read_fd = -1;
 int pipe_write_fd = -1;
 FILE *log_file;
 
-void cleanup()
+void cleanup(int sig)
 {
     (void)sig; // Suppress unused parameter warning
     printf("\nServer shutting down...\n");
@@ -91,14 +91,14 @@ int main()
     if (pipe_read_fd == -1)
     {
         perror("Failed to open read pipe");
-        cleanup();
+        cleanup(0);
     }
 
     pipe_write_fd = open(PIPE_S2C, O_WRONLY);
     if (pipe_write_fd == -1)
     {
         perror("Failed to open write pipe");
-        cleanup();
+        cleanup(0);
     }
 
     printf("Server: Client connected!\n");
@@ -148,6 +148,6 @@ int main()
         }
     }
 
-    cleanup();
+    cleanup(0);
     return 0;
 }
