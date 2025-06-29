@@ -3,9 +3,11 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <fcntl.h>
 #include <time.h>
 #include <signal.h>
+#include <errno.h>
 
 #define PIPE_NAME "/tmp/namedpipe_a19"
 #define BUFFER_SIZE 256
@@ -16,6 +18,7 @@ FILE *log_file;
 
 void cleanup(int sig)
 {
+    (void)sig; // Suppress unused parameter warning
     printf("\nServer shutting down...\n");
     close(pipe_fd);
     unlink(PIPE_NAME);
