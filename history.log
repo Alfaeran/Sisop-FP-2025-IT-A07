@@ -1,0 +1,17 @@
+[SERVER] Client connected
+[CLIENT] Connected to server
+[CLIENT-SENT] Hello Server
+[SERVER-RECEIVED] Hello Server
+[SERVER] Client connected
+[CLIENT] Connected to server
+[CLIENT-SENT] halooo
+[SERVER-RECEIVED] halooo
+[SERVER-SENT] rawr
+[CLIENT-RECEIVED] rawr
+[CLIENT-SENT] oi
+[SERVER-RECEIVED] oi
+[SERVER-SENT] wwaw
+[CLIENT-RECEIVED] wwaw
+[CLIENT-SENT] exit
+[SERVER] Client requested exit
+[CLIENT] Exiting

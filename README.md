@@ -13,7 +13,7 @@
 9. Jika ditemukan indikasi kecurangan dalam bentuk apapun di pengerjaan soal final project, maka nilai dianggap 0.
 10. Pengerjaan soal final project sesuai dengan modul yang telah diajarkan.
 
-## Kelompok A19
+## Kelompok A07
 
 Nama | NRP
 --- | ---
@@ -21,6 +21,61 @@ Kanafira Vanesha Putri | 5027241010
 Angga Firmansyah | 5027241062
 Tiara Fatimah Azzahra | 5027241090
 M. Alfaeran Auriga Ruswandi | 5027241115  
+
+## Deskripsi Soal
+
+> 19. Named Pipes - Pipe communication system.
+Buatlah sebuah program sederhana yang dapat berkomunikasi satu sama lain menggunakan sebuah named pipe. Catat setiap komunikasi di masing - masing sisi di dalam file bernama history.log (tidak menggunakan waktu dan tanggal). 
+
+
+### Catatan
+
+Program ini mengimplementasikan sistem komunikasi menggunakan Named Pipes di Linux. Named Pipes memungkinkan komunikasi inter-process yang persistent dan dapat diakses melalui filesystem.
+ Named Pipes menyediakan saluran komunikasi yang persistent dan dapat diakses seperti file di dalam filesystem. Dengan Named Pipes, dua proses terpisah bisa saling berkirim dan menerima pesan secara berurutan (First In First Out).
+
+
+**Note**: Program ini dirancang untuk sistem operasi Linux/Unix. Untuk menjalankan di Windows, gunakan WSL (Windows Subsystem for Linux) atau Virtual Machine Linux.
+
+Struktur repository:
+```
+.
+├── README.md              # Laporan utama
+├── src/                   # Source code C
+│   ├── server.c           # Program server
+│   └── client.c           # Program client  
+├── scripts/               # Shell scripts
+│   ├── build.sh           # Script kompilasi
+│   ├── run_server.sh      # Script menjalankan server
+│   ├── run_client.sh      # Script menjalankan client
+│   ├── demo.sh            # Script demo otomatis
+│   └── test.sh            # Script testing
+├── Makefile               # Build automation
+├── PROGRAM_README.md      # Dokumentasi program
+└── history.log            # Log komunikasi (generated saat runtime)
+```
+
+## Pengerjaan
+
+### 1. Implementasi Named Pipes Communication System
+
+**Teori**
+
+Named Pipes (FIFO - First In First Out) adalah salah satu metode Inter-Process Communication (IPC) di sistem operasi Unix/Linux yang memungkinkan proses yang berbeda untuk berkomunikasi satu sama lain. Berbeda dengan anonymous pipes yang hanya dapat digunakan oleh proses parent-child, named pipes dapat digunakan oleh proses yang tidak memiliki hubungan keluarga.
+
+Karakteristik Named Pipes:
+- Memiliki nama dalam filesystem (biasanya di /tmp/)
+- Persistent sampai dihapus secara eksplisit
+- Dapat diakses oleh multiple processes
+- Data flow secara FIFO (First In First Out)
+- Mendukung blocking dan non-blocking operations
+
+Fungsi-fungsi utama yang digunakan:
+- `mkfifo()`: Membuat named pipe
+- `open()`: Membuka named pipe untuk read/write
+- `read()/write()`: Membaca dan menulis data
+- `unlink()`: Menghapus named pipe
+
+**Solusi**
 
 Implementasi terdiri dari dua program utama:
 
@@ -52,6 +107,8 @@ Logging adalah proses pencatatan aktivitas dan events yang terjadi dalam sistem.
 - Audit trail komunikasi
 - Monitoring sistem
 - Analisis performa
+
+Studi empiris tentang praktik logging di kernel Linux, termasuk distribusi, perubahan, dan rekomendasi peningkatan kualitas log
 
 **Solusi**
 
@@ -92,6 +149,14 @@ Proper error handling dan cleanup sangat penting dalam system programming untuk:
 
 **Video Menjalankan Program**
 
+
+
+
+https://github.com/user-attachments/assets/20561d08-89e1-4b9d-8642-d47f456f5397
+
+
+
+
 Untuk menjalankan program:
 
 1. Kompilasi: `./scripts/build.sh` atau `make all`
@@ -121,6 +186,15 @@ Alternatif testing:
 
 ## Daftar Pustaka
 
-1. Stevens, W. Richard, and Stephen A. Rago. "Advanced Programming in the UNIX Environment." 3rd Edition. Addison-Wesley Professional, 2013.
-2. Love, Robert. "Linux System Programming: Talking Directly to the Kernel and C Library." 2nd Edition. O'Reilly Media, 2013.
-3. Kerrisk, Michael. "The Linux Programming Interface: A Linux and UNIX System Programming Handbook." No Starch Press, 2010.
+1.	Karacalı, H., Donum, N., & Cebel, E. (2024). *Cryptographic enhancement of named pipes for secure process communication. The European Journal of Research and Development*, 4(2), 62–68.
+ 
+2.	Karacalı, H., Cebel, E., & Donum, N. (2024). *Performance analysis of encryption algorithms in named pipe communication for Linux systems. The Eurasia Proceedings of Science, Technology, Engineering & Mathematics (EPSTEM)*, 27, 214–227.
+ 
+3.	The Art of Machinery. (2020). *Robust and race‑free server logging using named pipes*. Retrieved from https://theartofmachinery.com/2020/10/10/logging_with_named_pipes.html
+ 
+4. Merino, J. (2023). *Unit-testing shell scripts and tools with shtk*. Retrieved from https://jmmv.dev/2023/10/unit-testing-with-shtk.html
+
+5. Vogel, F. (2024). *Automated testing of Linux shell scripts and applications with BATS*. *Medium*. Retrieved from https://medium.com/@fvogel_16801/automated-testing-of-linux-shell-scripts-and-applications-with-bats-230258682d6b
+
+6. Hassan, A., Li, H., Chen, T., & Shang, W. (2018). Studying software logging using topic models. Empirical Software Engineering, 23, 2655-2694. https://doi.org/10.1007/s10664-018-9595-*8
+
